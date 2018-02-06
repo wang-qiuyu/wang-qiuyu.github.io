@@ -1,5 +1,5 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> APP升级到HTTPS流程详解 · Hexo</title><meta name="description" content="APP升级到HTTPS流程详解 - John Doe"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="Hexo"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/u/5677800872" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/wang-qiuyu" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">APP升级到HTTPS流程详解</h1><div class="post-info">Feb 6, 2018</div><div class="post-content"><p>#####1. 背景<br>2017年1月1日起，苹果App Store中的所有App都必须启用 App Transport Security(ATS)安全功能。App Transport Security(应用程序安全传输)，简称 ATS，是苹果在 iOS 9 中首次推出的一项隐私安全保护功能，启用ATS后，它会屏蔽明文HTTP资源加载，强制App通过HTTPS连接网络服务，通过传输加密保障用户数据安全。ATS在 iOS 9 中是默认开启的，但开发者仍然可以选择关闭 ATS，让自己的应用通过 HTTP 连接传输数据。但从2017年1月1日起，这招将行不通了，所有提交到 App Store 的App必须强制开启 ATS。</p>
-<p>#####2. 影响<br>2.1 100%被拒的情况：</p>
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> APP升级到HTTPS流程详解 · qiuyu's Blog</title><meta name="description" content="APP升级到HTTPS流程详解 - wang-qiuyu"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="qiuyu's Blog"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/u/5677800872" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/wang-qiuyu" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">APP升级到HTTPS流程详解</h1><div class="post-info">Feb 6, 2018</div><div class="post-content"><p>####1. 背景<br>2017年1月1日起，苹果App Store中的所有App都必须启用 App Transport Security(ATS)安全功能。App Transport Security(应用程序安全传输)，简称 ATS，是苹果在 iOS 9 中首次推出的一项隐私安全保护功能，启用ATS后，它会屏蔽明文HTTP资源加载，强制App通过HTTPS连接网络服务，通过传输加密保障用户数据安全。ATS在 iOS 9 中是默认开启的，但开发者仍然可以选择关闭 ATS，让自己的应用通过 HTTP 连接传输数据。但从2017年1月1日起，这招将行不通了，所有提交到 App Store 的App必须强制开启 ATS。</p>
+<p>####2. 影响<br>2.1 100%被拒的情况：</p>
 <ul>
 <li>使用自有网站的HTTP链接</li>
 <li>使用自有网站低于TLS1.2标准的HTTPS链接。</li>
@@ -10,7 +10,7 @@
 <li>App的内容如果有来自已知的第三方，可以暂时不用管，让技术设置一下ATS的开关，不过最好的做法是和第三方沟通下，敦促他们所有传输都使用TLS1.2加密。这一条适用于微信的公众号开发。</li>
 <li>App的内容来自于不可知的第三方，比如说允许用户通过App访问任意网站,比如说浏览器app，可以忽视ATS。如果使用框架是WebKit，苹果建议切换到Safari，否则今后可能还会有麻烦事。</li>
 </ul>
-<p>#####3. HTTP和HTTPS的区别：<br>HTTP：当客户端发送请求，那么服务器会直接返回数据。</p>
+<p>####3. HTTP和HTTPS的区别：<br>HTTP：当客户端发送请求，那么服务器会直接返回数据。</p>
 <p><img src="http://upload-images.jianshu.io/upload_images/299599-df853a6f41a3fb1d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Paste_Image.png"></p>
 <p>HTTPS：当客户端第一次发送请求的时候，服务器会返回一个包含公钥的受保护空间（也成为证书），当我们发送请求的时候，公钥会将请求加密再发送给服务器，服务器接到请求之后，用自带的私钥进行解密，如果正确再返回数据。这就是 HTTPS 的安全性所在。</p>
 <p><img src="http://upload-images.jianshu.io/upload_images/299599-2e2163dc0aa7f77b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Paste_Image.png"></p>
@@ -23,12 +23,12 @@
 <li>服务器可以使用其专用密钥对消息进行解密，然后恢复会话密钥。</li>
 </ul>
 <p>####4.开始配置HTTPS</p>
-<p>######4.1 准备工作</p>
+<p>#####4.1 准备工作</p>
 <ul>
 <li>有网站，有服务器，有域名；</li>
 <li>申请到一个 SSL 证书；</li>
 </ul>
-<p>######4.2 生成证书的申请文件：<br>1.先通过 openssl 工具创建一个私钥文件mydomain.key。</p>
+<p>#####4.2 生成证书的申请文件：<br>1.先通过 openssl 工具创建一个私钥文件mydomain.key。</p>
 <pre><code>sudo openssl genrsa -des3 -out mydomain.key 1024
 </code></pre><blockquote>
 <p>不同的证书是可能有加密位数不同的，这里用的是 1024，但有可能是 2048；<br> 这个 openssl 工具在 windows 和 linux 上面都可以用。</p>
@@ -38,7 +38,7 @@
 </code></pre><p> 这个 csr 文件在向证书颁发机构申请证书的时候需要提交，需要根据上一步的私钥才能产生，然后会需要输入下面一系列的信息：</p>
 <p><img src="http://upload-images.jianshu.io/upload_images/299599-94d5588f5ab72c7d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Paste_Image.png"></p>
 <p>最终生成好 csr 申请文件，就可以开始申请证书了。</p>
-<p>######4.3 申请证书<br>按验证的类别分：</p>
+<p>#####4.3 申请证书<br>按验证的类别分：</p>
 <ul>
 <li>域名认证（Domain Validation）：认证你的域名所有权和网站，申请验证简单，几分钟即可。</li>
 <li>组织机构认证（Organization Validation）：认证的域名和公司信息需要提交公司资料认证。</li>
@@ -53,10 +53,10 @@
 <p>Go Daddy的价格是669人民币/年<br><a href="https://sg.godaddy.com/zh/web-security/ssl-certificate/ov-ssl-certificate" target="_blank" rel="noopener">https://sg.godaddy.com/zh/web-security/ssl-certificate/ov-ssl-certificate</a></p>
 <p><img src="http://upload-images.jianshu.io/upload_images/299599-baf58a975d76a179.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Paste_Image.png"></p>
 <p>最终我们会得到一个.crt证书文件。凭着手上已经注册好的 mydomain.crt 证书和 mydomain.key 私钥文件，就可以在我们的 http 服务上面配置 SSL 了。</p>
-<p>####5.  Nginx 配置启用SSL<br>5.1 在原有的虚拟主机 server 段配置上修改端口为 443，然后加入如下三行 SSL 配置：</p>
+<h4 id="5-Nginx-配置启用SSL"><a href="#5-Nginx-配置启用SSL" class="headerlink" title="5.  Nginx 配置启用SSL"></a>5.  Nginx 配置启用SSL</h4><p>5.1 在原有的虚拟主机 server 段配置上修改端口为 443，然后加入如下三行 SSL 配置：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 443;</span><br><span class="line">    ssl on;</span><br><span class="line">    ssl_certificate /var/ssl/mydomain.crt;</span><br><span class="line">    ssl_certificate_key /var/ssl/mydomain.key;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>5.2 新增一个 server 段侦听同样域名上的 80 端口，直接 301 跳转到 https 协议上的地址：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    server_name www.mydomain.com mydomain.com;</span><br><span class="line">    rewrite ^/(.*)$ https://$host/$1 permanent;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>5.3然后重启一下 Nginx，这时候会要求输入私钥的密码，日后每次重启 Nginx都需要这一步。<br>至此就配置完毕了。</p>
+<p>5.3 然后重启一下 Nginx，这时候会要求输入私钥的密码，日后每次重启 Nginx都需要这一步。<br>至此就配置完毕了。</p>
 <p>参考文档：<br><a href="http://han.guokai.blog.163.com/blog/static/136718271201211631456811/" target="_blank" rel="noopener">SSL证书与Https应用部署小结</a><br><a href="https://www.huangwenchao.com.cn/2015/07/https-update-log.html" target="_blank" rel="noopener">HTTPS(SSL) 升级实践手札</a><br><a href="http://www.jianshu.com/p/c6a903da8346" target="_blank" rel="noopener">iOS应用网络安全之HTTPS</a><br><a href="http://www.jianshu.com/p/4b5d2d47833d" target="_blank" rel="noopener">iOS - HTTPS</a><br><a href="https://www.freehao123.com/startssl-ssl/" target="_blank" rel="noopener">StartSSL免费SSL证书成功申请</a><br><a href="http://mp.weixin.qq.com/s?__biz=MzA3NzM0NzkxMQ==&amp;mid=2655358269&amp;idx=1&amp;sn=1d532a948b0e3315c09365a61e780003&amp;chksm=84e24015b395c903e0da3aef5fabbc1063beb5158eba3a61fdd4529fd6f7e02c4211f89cfa63&amp;mpshare=1&amp;scene=1&amp;srcid=1020ss0nxsJ3JqjOHdw8KJrB#rd" target="_blank" rel="noopener">App上架重磅通知：App Store安全新规17年1月生效</a></p>
-</div></article></div></main><footer><div class="paginator"><a href="/2018/02/06/iTunes-Connect-Simplified-screenshot-submission-process/" class="prev">上一篇</a><a href="/2018/02/06/iOS-多个PDF的加载显示/" class="next">下一篇</a></div><div class="copyright"><p>© 2015 - 2018 <a href="http://yoursite.com">John Doe</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-65933410-1",'auto');ga('send','pageview');</script></body></html>
+</div></article></div></main><footer><div class="paginator"><a href="/2018/02/06/iTunes-Connect-Simplified-screenshot-submission-process/" class="prev">上一篇</a><a href="/2018/02/06/iOS-多个PDF的加载显示/" class="next">下一篇</a></div><div class="copyright"><p>© 2015 - 2018 <a href="http://yoursite.com">wang-qiuyu</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-65933410-1",'auto');ga('send','pageview');</script></body></html>
